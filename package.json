@@ -1,0 +1,13 @@
+{
+  "name": "castels",
+  "version": "1.0.0",
+  "description": "logical_game",
+  "main": "main.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "BogdanPasterak",
+  "license": "ISC"
+}
