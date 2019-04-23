@@ -9,5 +9,18 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "BogdanPasterak",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BogdanPasterak/castles.git"
+  },
+  "keywords": [
+    "game",
+    "logic",
+    "strategy"
+  ],
+  "bugs": {
+    "url": "https://github.com/BogdanPasterak/castles/issues"
+  },
+  "homepage": "https://github.com/BogdanPasterak/castles#readme"
 }
