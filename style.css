@@ -1,0 +1,14 @@
+.board {
+    display: flex;
+    flex-flow: column;
+}
+.row {
+    display: flex;
+    width: 100%;
+}
+.field {
+    margin: 1%;
+    width: 23%;
+    min-height: 50px;
+    background-color: #eee;
+}
