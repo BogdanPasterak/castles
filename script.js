@@ -36,6 +36,7 @@ class Field {
                 for (let col = 0; col < b_width; col++) {
                     let fieldNode = document.createElement('div');
                     fieldNode.classList.add('field');
+                    fieldNode.addEventListener('click', controller.clickField);
                     rowNode.append(fieldNode);
                 }
                 this.board.append(rowNode);  
@@ -49,6 +50,9 @@ class Field {
             model.init();
             view.init(model.boadr_height, model.boadr_width);
             console.log('start');
+        },
+        clickField : function(e){
+            console.log(e);
         }
 
     };
