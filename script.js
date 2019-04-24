@@ -30,12 +30,14 @@ class Field {
 
         init : function(b_height, b_width) {
             this.board = document.querySelector('.board');
+            let index = 0;
             for (let row = 0; row < b_height; row++) {
                 let rowNode = document.createElement('div');
                 rowNode.classList.add('row');
                 for (let col = 0; col < b_width; col++) {
                     let fieldNode = document.createElement('div');
                     fieldNode.classList.add('field');
+                    fieldNode.setAttribute('id',index++)
                     fieldNode.addEventListener('click', controller.clickField);
                     rowNode.append(fieldNode);
                 }
@@ -52,7 +54,7 @@ class Field {
             console.log('start');
         },
         clickField : function(e){
-            console.log(e);
+            console.log(Number(e.target.id));
         }
 
     };
