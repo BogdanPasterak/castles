@@ -18,10 +18,14 @@ class Field {
             model.boadr_width = 4;
             for (let row = 0; row < model.boadr_height; row++) {
                 for (let col = 0; col < model.boadr_width; col++) {
-                    model.fields.push(new Field(row, col));   
+                    this.fields.push(new Field(row, col));   
                 }
             }
             console.log(model);
+        },
+        updateField : function(index) {
+            this.fields[index].level++;
+            return true;
         }
     };
 
@@ -54,7 +58,9 @@ class Field {
             console.log('start');
         },
         clickField : function(e){
-            console.log(Number(e.target.id));
+            if (model.updateField(Number(e.target.id))){
+                console.log(model.fields[Number(e.target.id)]);
+            }
         }
 
     };
