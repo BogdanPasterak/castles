@@ -20,4 +20,21 @@ html , body {
     width: 23%;
     min-height: 50px;
     background-color: #eee;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    font-weight: bold;
 }
+.field.player1 {
+    background-color: #e88;
+}
+.field.player2 {
+    background-color: #8e8;
+}
+.field.castel1 {
+    color: #f00;
+}
+.field.castel2 {
+    color: green;
+}
+

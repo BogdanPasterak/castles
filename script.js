@@ -45,12 +45,17 @@ class Field {
                     if (f.owner == this.player) {
                         f.affect++;
                     } else if (f.owner == 0) {
+                        if (f.level > 0) {
+                            // neighbors.affect - level 
+                            f.level = 0;
+                        }
                         f.owner = this.player;
                         f.affect = 1;
                     } else { // owner opponent
                         f.affect--;
-                        if (f.affect == 0)
+                        if (f.affect == 0) {
                             f.owner = 0;
+                        }
                     }
                     //console.log(f);
                 });
@@ -78,6 +83,7 @@ class Field {
 
     let view = {
         board : Element,
+        fieldsNods : [],
 
         // initialize board game
         init : function(b_height, b_width) {
@@ -93,13 +99,38 @@ class Field {
                     fieldNode.setAttribute('id',index++)
                     fieldNode.addEventListener('click', controller.clickField);
                     rowNode.append(fieldNode);
+                    this.fieldsNods.push(fieldNode);
                 }
                 this.board.append(rowNode);  
             }
-            console.log(this.board);
+            //console.log(this.fieldsNods);
         },
-        repanitField : function(index) {
-            
+        repanitField : function(index, f) {
+            let fNode = this.fieldsNods[index];
+            // background
+            if (fNode.classList.contains('player1') && f.owner != 1 ){
+                fNode.classList.remove('player1');
+                if (f.owner == 2) {
+                    fNode.classList.add('player2');
+                }
+            } else if (fNode.classList.contains('player2') && f.owner != 2 ){
+                fNode.classList.remove('player2');
+                if (f.owner == 1) {
+                    fNode.classList.add('player1');
+                }
+            } else if (f.owner > 0) {
+                fNode.classList.add('player' + f.owner);
+            }
+            // castel
+            if (f.level > 0){
+                fNode.innerText = f.level + "," + f.affect;
+                if (! fNode.classList.contains('castel' + f.owner)) {
+                    fNode.classList.add('castel' + f.owner);
+                }
+            } else {
+                fNode.innerText = "";
+            }
+            console.log(fNode);
         }
     };
 
@@ -115,8 +146,8 @@ class Field {
             let neighbors = model.updateField(index);
             if ( neighbors ){
                 console.log(neighbors);
-                view.repanitField(index);
-                neighbors.forEach((i) => view.repanitField(i));
+                view.repanitField(index, model.fields[index]);
+                neighbors.forEach((i) => view.repanitField(i, model.fields[i]));
             }
         }
 
