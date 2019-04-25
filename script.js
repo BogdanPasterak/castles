@@ -3,29 +3,40 @@ class Field {
         this.row = row;
         this.col = col;
         this.castel = false;
-        this.owner = {};
+        this.owner = 0;
         this.level = 0;
     }
 }
 
 (function(){
     let model = {
+        player : Number,
         boadr_width : Number,
         boadr_height : Number,
         fields : [],
         init : function() {
-            model.boadr_height = 4;
-            model.boadr_width = 4;
-            for (let row = 0; row < model.boadr_height; row++) {
-                for (let col = 0; col < model.boadr_width; col++) {
+            this.player = 1;
+            this.boadr_height = 4;
+            this.boadr_width = 4;
+            for (let row = 0; row < this.boadr_height; row++) {
+                for (let col = 0; col < this.boadr_width; col++) {
                     this.fields.push(new Field(row, col));   
                 }
             }
             console.log(model);
         },
         updateField : function(index) {
-            this.fields[index].level++;
-            return true;
+            console.log("player",this.player);
+            let field = this.fields[index];
+            if ((field.owner == 0 || field.owner == this.player) && field.level < 5) {
+                field.owner = this.player;
+                field.level++;
+                this.player = (this.player == 1) ? 2 : 1;
+
+                console.log(field);
+                return true;
+            }
+            return false;
         }
     };
 
@@ -59,7 +70,7 @@ class Field {
         },
         clickField : function(e){
             if (model.updateField(Number(e.target.id))){
-                console.log(model.fields[Number(e.target.id)]);
+                //console.log(model.fields[Number(e.target.id)]);
             }
         }
 
