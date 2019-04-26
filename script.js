@@ -99,6 +99,7 @@
                     let color = (castels[index] > 0) ? 'color-red' : 'color-green';
                     let base = document.createElement('div');
                     base.classList.add('base', color);
+                    base.innerText = castels[index];
                     this.fieldsNods[index].append(base)
                 }
             }
