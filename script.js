@@ -1,12 +1,4 @@
-class Field {
-    constructor(row, col) {
-        this.row = row;
-        this.col = col;
-        this.affect = 0;
-        this.owner = 0;
-        this.level = 0;
-    }
-}
+// index.html|style.css|script.js
 
 (function(){
     let model = {
@@ -15,14 +7,16 @@ class Field {
         board_height : Number,
         size : Number,
         owners : [],
+        fields : [],
         
         // initialize model
         init : function() {
             this.player = 1;
-            this.board_height = 4;
-            this.board_width = 4;
+            this.board_height = 5;
+            this.board_width = 5;
             this.size = this.board_height * this.board_width;
             this.owners = new Array(this.size).fill(0);  
+            this.fields = new Array(this.size).fill(0);  
             //console.log(model);
         },
 
@@ -31,6 +25,7 @@ class Field {
             let affects = new Array(this.size).fill(0);
 
             for (let index = 0; index < this.size; index++) {
+                affects[index] += arr[index];
                 if (index >= this.board_width) 
                     affects[index] += arr[index - this.board_width];
                 if (index % this.board_width > 0)
@@ -39,6 +34,11 @@ class Field {
                     affects[index] += arr[index + 1];
                 if (index < this.size - this.board_width)
                     affects[index] += arr[index + this.board_width];
+                if (affects[index] * arr[index] < 0){
+                    // castel on enemy field, destroy castel, recursiwe coll
+                    arr[index] = 0;
+                    return this.getAffects(arr);
+                }
             }
             return affects;
         },
@@ -146,30 +146,6 @@ class Field {
                 this.fieldsNods[index].innerText = text;
             }
             return;
-            // background
-            if (fNode.classList.contains('player1') && f.owner != 1 ){
-                fNode.classList.remove('player1');
-                if (f.owner == 2) {
-                    fNode.classList.add('player2');
-                }
-            } else if (fNode.classList.contains('player2') && f.owner != 2 ){
-                fNode.classList.remove('player2');
-                if (f.owner == 1) {
-                    fNode.classList.add('player1');
-                }
-            } else if (f.owner > 0) {
-                fNode.classList.add('player' + f.owner);
-            }
-            // castel
-            if (f.level > 0){
-                fNode.innerText = f.level + "," + f.affect;
-                if (! fNode.classList.contains('castel' + f.owner)) {
-                    fNode.classList.add('castel' + f.owner);
-                }
-            } else {
-                fNode.innerText = "";
-            }
-            console.log(fNode);
         }
     };
 
@@ -182,9 +158,16 @@ class Field {
         clickField : function(e){
             let index = Number(e.target.id);
 
-            model.owners[index] += model.player;
-            model.player *= -1;
-            view.repanitFields(model.getAffects(model.owners), model.owners);
+            // not enemy field and no more than 5 and not enemy castel
+            if (model.fields[index] * model.player >= 0 &&
+                model.owners[index] * model.player < 5 &&
+                model.owners[index] * model.player >= 0) {
+                model.owners[index] += model.player;
+                model.fields = model.getAffects(model.owners);
+                view.repanitFields(model.fields, model.owners);
+                model.player *= -1;    
+            }
+
 
             // if pasible update field and neighbors
             /*
