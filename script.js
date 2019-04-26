@@ -75,6 +75,7 @@
             for (let index = 0; index < this.fieldsNods.length; index++) {
                 // castel
                 let list = 'field';
+                this.fieldsNods[index].innerHTML = "";
                 let text = "";
                 if (castels[index] > 0) {
                     text += castels[index];
@@ -93,7 +94,13 @@
                     list += ' player2';
                 }
                 this.fieldsNods[index].classList = list;
-                this.fieldsNods[index].innerText = text;
+                //this.fieldsNods[index].innerText = text;
+                if (castels[index] != 0) {
+                    let color = (castels[index] > 0) ? 'color-red' : 'color-green';
+                    let base = document.createElement('div');
+                    base.classList.add('base', color);
+                    this.fieldsNods[index].append(base)
+                }
             }
         }
     };
@@ -104,7 +111,7 @@
             view.init(model.board_height, model.board_width);
             console.log('start');
         },
-        
+
         clickField : function(e){
             let index = Number(e.target.id);
 
@@ -112,6 +119,7 @@
             if (model.fields[index] * model.player >= 0 &&
                 model.owners[index] * model.player < 5 &&
                 model.owners[index] * model.player >= 0) {
+
                 model.owners[index] += model.player;
                 model.fields = model.getAffects(model.owners);
                 view.repanitFields(model.fields, model.owners);

@@ -17,7 +17,6 @@ html , body {
     display: flex;
     flex-grow: 1;
     margin: 1%;
-    width: 23%;
     min-height: 50px;
     background-color: #eee;
     align-items: center;
@@ -36,5 +35,16 @@ html , body {
 }
 .field.castel2 {
     color: green;
+}
+.base {
+    width: 80%;
+    height: 20%;
+    margin-top: 50%;
+}
+.color-red {
+    background-color: #f00;
+}
+.color-green {
+    background-color: green;
 }
 
