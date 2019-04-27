@@ -48,10 +48,12 @@
 
     let view = {
         fieldsNods : [],
+        headPlayer : Element,
 
         // initialize board game
         init : function(b_height, b_width) {
             board = document.querySelector('.board');
+            this.headPlayer = document.querySelector('.head_player');
             let index = 0;
             //console.log(b_width, b_height);
             for (let row = 0; row < b_height; row++) {
@@ -103,6 +105,11 @@
                     this.fieldsNods[index].append(base)
                 }
             }
+        },
+
+        repanitHeder : function(player, fields, castels) {
+            this.headPlayer.innerHTML = ((player == 1) ? 'Red' : 'Green');
+            
         }
     };
 
@@ -123,8 +130,9 @@
 
                 model.owners[index] += model.player;
                 model.fields = model.getAffects(model.owners);
-                view.repanitFields(model.fields, model.owners);
                 model.player *= -1;    
+                view.repanitHeder(model.player, model.fields, model.owners);
+                view.repanitFields(model.fields, model.owners);
             }
         }
 
