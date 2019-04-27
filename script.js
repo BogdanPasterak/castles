@@ -41,8 +41,11 @@
                 }
             }
             return affects;
-        }
+        },
 
+        canBuild : function (player, place) {
+
+        }
 
     };
 
