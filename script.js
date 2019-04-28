@@ -1,4 +1,11 @@
 // index.html|style.css|script.js
+class Field {
+    constructor() {
+        this.castel = 0;
+        this.affect = 0;
+    }
+}
+
 
 (function(){
     let model = {
@@ -6,7 +13,7 @@
         board_width : Number,
         board_height : Number,
         size : Number,
-        owners : [],
+        //owners : [],
         fields : [],
         
         // initialize model
@@ -15,32 +22,40 @@
             this.board_height = 5;
             this.board_width = 5;
             this.size = this.board_height * this.board_width;
-            this.owners = new Array(this.size).fill(0);  
-            this.fields = new Array(this.size).fill(0);  
+            //this.owners = new Array(this.size).fill(0);  
+            this.fields = []; 
+            for (let i = 0; i < this.size; i++) {
+                this.fields.push( new Field());
+            } 
             //console.log(model);
         },
 
-        // return array affect on fields
-        getAffects : function (arr) {
-            let affects = new Array(this.size).fill(0);
+        // calc affect on fields
+        calcAffect : function (arr) {
 
             for (let index = 0; index < this.size; index++) {
-                affects[index] += arr[index];
-                if (index >= this.board_width) 
-                    affects[index] += arr[index - this.board_width];
-                if (index % this.board_width > 0)
-                    affects[index] += arr[index - 1];
-                if (index % this.board_width < this.board_width - 1)
-                    affects[index] += arr[index + 1];
-                if (index < this.size - this.board_width)
-                    affects[index] += arr[index + this.board_width];
-                if (affects[index] * arr[index] < 0){
-                    // castel on enemy field, destroy castel, recursiwe coll
-                    arr[index] = 0;
-                    return this.getAffects(arr);
+                let field = arr[index];
+                field.affect = field.castel;
+                if (index >= this.board_width) {
+                    field.affect += arr[index - this.board_width].castel;
                 }
-            }
-            return affects;
+                if (index % this.board_width > 0) {
+                    field.affect += arr[index - 1].castel;
+                }
+                if (index % this.board_width < this.board_width - 1) {
+                    field.affect += arr[index + 1].castel;
+                }
+                if (index < this.size - this.board_width) {
+                    field.affect += arr[index + this.board_width].castel;
+                }
+                if (field.affect * field.castel < 0){
+                    // castel on enemy field, destroy castel, recursive coll
+                    field.castel = 0;
+                    this.calcAffect(arr);
+                    break;
+                }
+            };
+            return;
         },
 
         canBuild : function (player, place) {
@@ -75,38 +90,38 @@
             //console.log(this.fieldsNods);
         },
 
-        repanitFields : function(fields, castels) {
+        repanitFields : function(fields) {
             
             for (let index = 0; index < this.fieldsNods.length; index++) {
                 // castel
                 let list = 'field';
                 this.fieldsNods[index].innerHTML = "";
                 let text = "";
-                if (castels[index] > 0) {
-                    text += castels[index];
+                if (fields[index].castel > 0) {
+                    text += fields[index].castel;
                     list += ' castel1';
                 } 
-                if (castels[index] < 0) {
-                    text += castels[index] * -1;
+                if (fields[index].castel < 0) {
+                    text += fields[index].castel * -1;
                     list += ' castel2';
                 } 
-                if (fields[index] > 0) {
-                    text += "," + fields[index];
+                if (fields[index].affect > 0) {
+                    text += "," + fields[index].affect;
                     list += ' player1';
                 } 
-                if (fields[index] < 0) {
-                    text += "," + fields[index] * - 1;
+                if (fields[index].affect < 0) {
+                    text += "," + fields[index].affect* - 1;
                     list += ' player2';
                 }
                 this.fieldsNods[index].classList = list;
-                //this.fieldsNods[index].innerText = text;
-                if (castels[index] != 0) {
-                    let color = (castels[index] > 0) ? 'color-red' : 'color-green';
-                    let base = document.createElement('div');
-                    base.classList.add('base', color);
-                    base.innerText = castels[index];
-                    this.fieldsNods[index].append(base)
-                }
+                this.fieldsNods[index].innerText = text;
+                // if (fields[index].castel != 0) {
+                //     let color = (castels[index] > 0) ? 'color-red' : 'color-green';
+                //     let base = document.createElement('div');
+                //     base.classList.add('base', color);
+                //     base.innerText = castels[index];
+                //     this.fieldsNods[index].append(base)
+                // }
             }
         },
 
@@ -127,15 +142,15 @@
             let index = Number(e.target.id);
 
             // not enemy field and no more than 5 and not enemy castel
-            if (model.fields[index] * model.player >= 0 &&
-                model.owners[index] * model.player < 5 &&
-                model.owners[index] * model.player >= 0) {
+            if (model.fields[index].affect * model.player >= 0 &&
+                model.fields[index].castel * model.player < 5 &&
+                model.fields[index].castel * model.player >= 0) {
 
-                model.owners[index] += model.player;
-                model.fields = model.getAffects(model.owners);
+                model.fields[index].castel += model.player;
+                model.calcAffect(model.fields);
                 model.player *= -1;    
-                view.repanitHeder(model.player, model.fields, model.owners);
-                view.repanitFields(model.fields, model.owners);
+                view.repanitHeder(model.player, model.fields);
+                view.repanitFields(model.fields);
             }
         }
 
