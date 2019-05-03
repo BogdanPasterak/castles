@@ -82,8 +82,8 @@ class Field {
                     fieldNode.addEventListener('click', controller.clickField);
                     rowNode.append(fieldNode);
                     let svg = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
-                    svg.setAttribute('width', '100%');
-                    svg.setAttribute('height', '100%');
+                    // svg.setAttribute('width', '100%');
+                    // svg.setAttribute('height', '100%');
                     svg.setAttribute('viewBox', '0 0 100 50');
                     svg.setAttribute('id',index++);
                     // let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
@@ -105,7 +105,7 @@ class Field {
             
             for (let index = 0; index < this.fieldsNods.length; index++) {
                 // castel
-                let list = 'field';
+                let list = '';
                 this.fieldsNods[index].innerHTML = "";
                 let text = "";
                 if (fields[index].castel > 0) {
