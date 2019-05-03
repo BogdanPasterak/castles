@@ -55,7 +55,6 @@ class Field {
                     break;
                 }
             };
-            return;
         },
 
         canBuild : function (player, place) {
@@ -80,10 +79,22 @@ class Field {
                 for (let col = 0; col < b_width; col++) {
                     let fieldNode = document.createElement('div');
                     fieldNode.classList.add('field');
-                    fieldNode.setAttribute('id',index++)
                     fieldNode.addEventListener('click', controller.clickField);
                     rowNode.append(fieldNode);
-                    this.fieldsNods.push(fieldNode);
+                    let svg = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
+                    svg.setAttribute('width', '100%');
+                    svg.setAttribute('height', '100%');
+                    svg.setAttribute('viewBox', '0 0 100 50');
+                    svg.setAttribute('id',index++);
+                    // let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+                    // rect.setAttribute('x', '5');
+                    // rect.setAttribute('y', '5');
+                    // rect.setAttribute('width', '50');
+                    // rect.setAttribute('height', '50');
+                    // rect.setAttribute('fill', 'red');
+                    // svg.append(rect);
+                    fieldNode.append(svg);
+                    this.fieldsNods.push(svg);
                 }
                 board.append(rowNode);  
             }
@@ -114,7 +125,10 @@ class Field {
                     list += ' player2';
                 }
                 this.fieldsNods[index].classList = list;
-                this.fieldsNods[index].innerText = text;
+                
+
+                //this.fieldsNods[index].append(svg);
+                //this.fieldsNods[index].innerText = text;
                 // if (fields[index].castel != 0) {
                 //     let color = (castels[index] > 0) ? 'color-red' : 'color-green';
                 //     let base = document.createElement('div');
