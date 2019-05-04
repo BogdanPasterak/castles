@@ -82,10 +82,11 @@ class Field {
                     fieldNode.addEventListener('click', controller.clickField);
                     rowNode.append(fieldNode);
                     let svg = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
-                    // svg.setAttribute('width', '100%');
+                    svg.setAttribute('preserveAspectRatio', "none");
                     // svg.setAttribute('height', '100%');
                     svg.setAttribute('viewBox', '0 0 100 50');
                     svg.setAttribute('id',index++);
+                    svg.setAttribute('style', 'background-color:lightblue');
                     // let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
                     // rect.setAttribute('x', '5');
                     // rect.setAttribute('y', '5');
