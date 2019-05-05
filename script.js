@@ -84,16 +84,16 @@ class Field {
                     let svg = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
                     svg.setAttribute('preserveAspectRatio', "none");
                     // svg.setAttribute('height', '100%');
-                    svg.setAttribute('viewBox', '0 0 100 50');
+                    svg.setAttribute('viewBox', '0 0 100 20');
                     svg.setAttribute('id',index++);
                     svg.setAttribute('style', 'background-color:lightblue');
-                    // let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
-                    // rect.setAttribute('x', '5');
-                    // rect.setAttribute('y', '5');
-                    // rect.setAttribute('width', '50');
-                    // rect.setAttribute('height', '50');
-                    // rect.setAttribute('fill', 'red');
-                    // svg.append(rect);
+                    let rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+                    rect.setAttribute('x', '5');
+                    rect.setAttribute('y', '15');
+                    rect.setAttribute('width', '90');
+                    rect.setAttribute('height', '4');
+                    rect.setAttribute('fill', 'red');
+                    svg.append(rect);
                     fieldNode.append(svg);
                     this.fieldsNods.push(svg);
                 }
